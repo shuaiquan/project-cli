@@ -1,6 +1,6 @@
-const fs = require('fs');
-const chalk = require('chalk');
-const { clone, rmGit } = require('@s7n/git-helper');
+import * as fs from 'fs';
+import chalk from 'chalk';
+import { clone, rmGit } from '@s7n/git-helper';
 
 const url = 'https://github.com/shuaiquan/project-tpl.git';
 
@@ -11,7 +11,7 @@ const ERROR = {
     }
 }
 
-module.exports = function (projectName, useTS) {
+export function createApp(projectName) {
     try {
         if (!projectName) {
             throw new Error(ERROR.INIT.MISS);
@@ -25,7 +25,7 @@ module.exports = function (projectName, useTS) {
         } catch (error) {
             // 文件不存在
             clone(url, { name: projectName, branch: 'ts-tiny-template' })
-                .then(destUrl => rmGit(destUrl))
+                .then(destUrl => rmGit(destUrl as string))
                 .then(() => console.log(chalk.green(`${projectName} 项目创建成功`)))
                 .catch(e => {
                     logError(e);
