@@ -1,5 +1,5 @@
 {
-  "name": "s7n-cli",
+  "name": "@s7n/cli",
   "version": "0.0.1",
   "description": "this is a cli for init front-end project",
   "main": "./lib/index.js",
