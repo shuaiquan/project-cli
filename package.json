@@ -1,17 +1,19 @@
 {
-  "name": "project-cli",
-  "version": "1.0.0",
+  "name": "s7n-cli",
+  "version": "0.0.1",
   "description": "this is a cli for init front-end project",
-  "main": "dist/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepublish": "tsc"
   },
   "bin": {
-    "s7n": "./dist/index.js"
+    "s7n": "./lib/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shuaiquan/project-cli.git"
+    "url": "git+https://github.com/shuaiquan/s7n-cli.git"
   },
   "keywords": [
     "cli"
@@ -19,13 +21,16 @@
   "author": "shuaiquan",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/shuaiquan/project-cli/issues"
+    "url": "https://github.com/shuaiquan/s7n-cli/issues"
   },
-  "homepage": "https://github.com/shuaiquan/project-cli#readme",
+  "homepage": "https://github.com/shuaiquan/s7n-cli#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "dependencies": {
     "@s7n/git-helper": "^1.0.6",
-    "chalk": "^2.4.2",
-    "commander": "^2.19.0"
+    "chalk": "^4.1.1",
+    "commander": "^7.2.0"
   },
   "devDependencies": {
     "@types/node": "^12.11.7",
