@@ -1,17 +1,10 @@
 import * as fs from 'fs';
 import chalk from 'chalk';
 import { clone, rmGit } from '@s7n/git-helper';
+import { BranchMap, TemplateType, TEMPLATE_REPO } from './const';
+import { ERROR, logError } from '../error';
 
-const url = 'https://github.com/shuaiquan/project-tpl.git';
-
-const ERROR = {
-    INIT: {
-        MISS: '缺失项目名称',
-        EXIST: 'destination path already exists and is not an empty directory',
-    }
-}
-
-export function createApp(projectName) {
+function createApp(projectName: string, type: TemplateType = TemplateType.TSReact) {
     try {
         if (!projectName) {
             throw new Error(ERROR.INIT.MISS);
@@ -21,10 +14,11 @@ export function createApp(projectName) {
         try {
             fs.accessSync(projectName, fs.constants.F_OK);
             // 相应路径已存在
-            throw new Error(ERROR.INIT.EXIST);
+            logError(new Error(ERROR.INIT.EXIST));
         } catch (error) {
+            const branch = BranchMap[type] || BranchMap[TemplateType.TSReact];
             // 文件不存在
-            clone(url, { name: projectName, branch: 'ts-tiny-template' })
+            clone(TEMPLATE_REPO, { name: projectName, branch })
                 .then(destUrl => rmGit(destUrl as string))
                 .then(() => console.log(chalk.green(`${projectName} 项目创建成功`)))
                 .catch(e => {
@@ -37,6 +31,7 @@ export function createApp(projectName) {
     }
 }
 
-function logError(err) {
-    console.log(chalk.red(err));
+export {
+    createApp,
+    TemplateType,
 }
