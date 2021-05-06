@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-const { program } = require('commander');
-const { createApp, TemplateType } = require('./create');
+import { program } from 'commander';
+import { createApp, TemplateType } from './create';
+
 const version = require('../package.json').version;
 
 /**
@@ -9,15 +10,26 @@ const version = require('../package.json').version;
  */
 program.version(version, '-v, --version');
 
+// 空行不要误删
+const typeDes = `选择创建的模版类型
+               ts-react (支持 TS + React)
+               es (仅支持 ES)
+               ts (仅支持 TS)`;
+
 /**
  * init <name> 初始化命令
  * name 文件名（必选）
  */
 program.command('create-app [name]')
     .description('在当前文件夹创建一个新的项目（默认支持 TS + React）')
-    .option('--es', '创建一个仅支持 ES 的项目模版')
+    .option('--type [type]', typeDes)
     .action(function (dir, options) {
-        const type = options.es ? TemplateType.ES : TemplateType.TSReact;
+        let type = TemplateType.TSReact;
+        if (options.type === 'es') {
+            type = TemplateType.ES;
+        } else if (options.type === 'ts') {
+            type = TemplateType.TS;
+        }
         createApp(dir, type);
     });
 
